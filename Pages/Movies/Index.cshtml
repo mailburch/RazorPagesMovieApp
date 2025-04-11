@@ -1,0 +1,49 @@
+@page
+@model RazorPagesMovieApp.Pages.Movies.IndexModel
+
+@{
+    ViewData["Title"] = "Movies";
+}
+
+<h1 class="mb-4">🎬 Movie List</h1>
+
+<form method="get" class="mb-3 d-flex gap-2">
+    <input type="text" name="SearchString" value="@Model.SearchString" placeholder="Search by title or genre" class="form-control w-25" />
+    <button type="submit" class="btn btn-outline-primary">Search</button>
+    <a asp-page="./Index" class="btn btn-outline-secondary">Reset</a>
+    <a asp-page="./Create" class="btn btn-success ms-auto">+ Add Movie</a>
+</form>
+
+<table class="table table-bordered table-striped align-middle shadow-sm">
+    <thead class="table-dark">
+        <tr>
+            <th>Title</th>
+            <th>Release Date</th>
+            <th>Genre</th>
+            <th>Price</th>
+            <th>Rating</th>
+            <th>Poster</th>
+            <th>Director</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Movie)
+{
+    <tr>
+        <td>@item.Title</td>
+        <td>@item.ReleaseDate.ToShortDateString()</td>
+        <td>@item.Genre</td>
+        <td>@item.Price.ToString("C")</td>
+        <td>@item.Rating</td>
+        <td><img src="@item.Poster" alt="Poster" style="max-height: 80px;" /></td>
+        <td>@item.Director</td>
+        <td>
+            <a asp-page="./Edit" asp-route-id="@item.Id" class="btn btn-sm btn-primary">Edit</a>
+            <a asp-page="./Details" asp-route-id="@item.Id" class="btn btn-sm btn-info text-white">Details</a>
+            <a asp-page="./Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Delete</a>
+        </td>
+    </tr>
+}
+    </tbody>
+</table>
